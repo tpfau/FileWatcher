@@ -9,7 +9,7 @@ import org.cytoscape.work.TaskIterator;
 /**
 
  */
-public class FileWatcherFactory implements NetworkViewTaskFactory, TaskFactory {
+public class FileWatcherFactory implements NetworkViewTaskFactory {
 
 	
 	FileManager mgr;
@@ -20,27 +20,17 @@ public class FileWatcherFactory implements NetworkViewTaskFactory, TaskFactory {
 	}
 	
 	@Override
-	public TaskIterator createTaskIterator(CyNetworkView arg0) {
-		
+	public TaskIterator createTaskIterator(CyNetworkView arg0) {		
 		return new TaskIterator(new GenerateFileWatcherTask(mgr));
 	}
 
 	@Override
 	public boolean isReady(CyNetworkView arg0) {
 		// TODO Auto-generated method stub
-		return true;
-	}
-	@Override
-	public TaskIterator createTaskIterator() {
-		// TODO Auto-generated method stub
-		return new TaskIterator(new GenerateFileWatcherTask(mgr));
+		return arg0 != null && arg0.getModel() != null;
 	}
 
-	@Override
-	public boolean isReady() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+
 }
 
 	
