@@ -24,11 +24,11 @@ import org.cytoscape.work.TaskMonitor;
 public class UpdateDataFromFileTask extends AbstractTask
 {
 
-
 	FileWatcherSettings settings;
 	UpdateDataFromFileTask(FileWatcherSettings settings)
-	{			
+	{					
 		this.settings = settings;
+		
 	}
 
 	@Override
@@ -61,7 +61,8 @@ public class UpdateDataFromFileTask extends AbstractTask
 		Vector<String> headers = new Vector<String>();
 		int matchcolindex = 0;
 		Class matchClass = settings.targetTable.getColumn(settings.ColumnName).getType();
-		String[] headerline = currentline.split("\t");
+		String columnseparator = getFileSeparator(f);
+		String[] headerline = currentline.split(columnseparator);
 		for(int i = 0; i < headerline.length; i++)
 		{
 			if(headerline[i].equals(settings.ColumnName))
@@ -73,7 +74,7 @@ public class UpdateDataFromFileTask extends AbstractTask
 		currentline = br.readLine();
 		while(currentline != null)
 		{
-			String[] currentdata = currentline.split("\t");
+			String[] currentdata = currentline.split(columnseparator);
 
 			Object target = getMatchingObject(currentdata[matchcolindex], matchClass);				
 			Collection<CyRow> matchingrows = settings.targetTable.getMatchingRows(settings.ColumnName, target);
@@ -99,6 +100,30 @@ public class UpdateDataFromFileTask extends AbstractTask
 		br.close();
 	}
 
+	private String getFileSeparator(File f) throws IOException
+	{
+		BufferedReader br = new BufferedReader(new FileReader(f));		
+		String currentline = br.readLine();
+		Vector<String> allowedSeparators = new Vector<String>();
+		allowedSeparators.add("\t");
+		allowedSeparators.add(",");
+		allowedSeparators.add(";");
+		for(String sep : allowedSeparators)
+		{
+			String[] headerline = currentline.split(sep);			
+			for(String columnheader :headerline)
+			{
+				if(columnheader.contentEquals(settings.ColumnName))
+				{
+					//this should be only possible if the separator actually is correct				
+					br.close();	
+					return sep;
+				}
+			}
+		}
+		br.close();	
+		return "\t";
+	}
 	private void readxls(Workbook wb)
 	{
 		//Read the header lineO
