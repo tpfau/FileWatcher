@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -133,18 +134,18 @@ public class UpdateDataFromFileTask extends AbstractTask
 		Vector<String> headers = new Vector<>();
 		for(int i = 0; i < HeaderRow.getLastCellNum(); i++)
 		{
-			Cell current = HeaderRow.getCell(i, Row.RETURN_BLANK_AS_NULL);
+			Cell current = HeaderRow.getCell(i, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
 			if(current == null)
 			{
 				headers.add(null);
 			}
 			else
 			{
-				if(current.getCellType() == Cell.CELL_TYPE_STRING)
+				if(current.getCellTypeEnum() == CellType.STRING)
 				{
 					headers.add(current.getStringCellValue());
 				}
-				else if(current.getCellType() == Cell.CELL_TYPE_NUMERIC)
+				else if(current.getCellTypeEnum() == CellType.NUMERIC)
 				{
 					headers.add(Double.toString(current.getNumericCellValue()));
 				}
@@ -187,15 +188,15 @@ public class UpdateDataFromFileTask extends AbstractTask
 
 	private Class getCellClass(Cell currentCell)
 	{
-		if(currentCell.getCellType() == Cell.CELL_TYPE_FORMULA || currentCell.getCellType() == Cell.CELL_TYPE_NUMERIC)
+		if(currentCell.getCellTypeEnum() == CellType.FORMULA || currentCell.getCellTypeEnum() == CellType.NUMERIC)
 		{
 			return Double.class;
 		}
-		else if(currentCell.getCellType() == Cell.CELL_TYPE_STRING)
+		else if(currentCell.getCellTypeEnum() == CellType.STRING)
 		{
 			return String.class;
 		}
-		else if(currentCell.getCellType() == Cell.CELL_TYPE_BOOLEAN)
+		else if(currentCell.getCellTypeEnum() == CellType.BOOLEAN)
 		{
 			return Boolean.class;
 		}

@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cytoscape.FileWatcher</groupId>
 	<artifactId>FileWatcher</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 
 	<name>FileWatcher</name>
 	<packaging>bundle</packaging>
@@ -166,7 +166,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.8</version>
+			<version>3.17</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-codec</groupId>
@@ -177,7 +177,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.8</version>
+			<version>3.17</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xml-apis</groupId>
@@ -193,7 +193,7 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml-schemas</artifactId>
-			<version>3.8</version>
+			<version>3.17</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.xmlbeans</groupId>
